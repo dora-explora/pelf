@@ -4,7 +4,7 @@ a.k.a. PELF, a binary that can run natively on both Windows and Linux!
 
 This project is a file format and corresponding command-line utility that combines a Windows **P**ortable **E**xecutable file (commonly know by its extension .exe) and a Linux **E**xecutable **L**inkable **F**ormat file through a [shebang](https://wikipedia.org/wiki/Shebang_(Unix))-less shell script to make a binary [polyglot](https://wikipedia.org/wiki/Polyglot_\(computing\)) that can run on both Windows and Linux!
 
-<img src="screenshots/sidebyside.png" alt="Two terminals showing a Hello World program running in Windows and Linux from the same file" width="50%">
+<img src="screenshots/sidebyside.png" alt="Two terminals showing a Hello World program running in Windows and Linux from the same file" width="80%">
 
 ## Installation
 
