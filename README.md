@@ -24,3 +24,7 @@ Then, just run `./file.pelf` on Linux or `file.pelf` on Windows!
 ## How it works
 
 The PELF format takes advantage of the Portable Executable **DOS Stub**, a tiny 128B DOS program present at the start of every .exe file that reminds any user who is still somehow running DOS that they cannot use this program. PELF overwrites this stub with an even tinier shebangless script (less than 56 bytes!) that takes the end of the file after a certain offset, copies it to a new file, marks that file as executable, and simultaneously runs it and deletes it. Then, by concatenating the ELF file at the end of the PE file and setting that offset to be the point where they connect, you have yourself a working PELF!
+
+## Acknowledgements
+
+Although I didn't know about it when I came up with the idea for this project, Justine Tunney's [Actually Portable Executable](https://justine.lol/ape.html) was a big help in figuring out how this format could work out. Although my stub is somewhat different, her approach of a PE and shell script polyglot was the reason I could complete this project.
