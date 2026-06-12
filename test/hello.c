@@ -1,5 +1,9 @@
 #include <stdio.h>
 
 int main() {
-    printf("Hello, world!\n");
+    #ifdef __linux__
+        printf("Hello, Linux!\n");
+    #else
+        printf("Hello, Windows!\n");
+    #endif
 }

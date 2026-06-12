@@ -16,6 +16,6 @@ Just type `pelf file` to combine `file` and `file.exe` into a .pelf, or specify 
 
 The PELF format takes advantage of the Windows DOS Stub, a tiny 128B DOS program present at the start of every .exe file that reminds any user still somehow running DOS that they cannot run this program.
 
-A PELF overwrites this stub with a tiny script (less than 60 bytes!) that takes that end of the file after a certain offset, copies it to a new file, marks that file as executable, and simultaneously runs it and deletes it.
+A PELF overwrites this stub with an even tinier script (~53 bytes!) that takes that end of the file after a certain offset, copies it to a new file, marks that file as executable, and simultaneously runs it and deletes it.
 
 Then, by concatenating the ELF file at the end of the PE file and setting that offset to be the point where they connect, you have yourself a working PELF!
