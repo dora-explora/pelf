@@ -32,9 +32,9 @@ int main(int argc, char *argv[]) {
     FILE *plffile = fdopen(plffd, "wb"); // open/create plffile as an executable binary with write permissions
     if (lnxfile == NULL || winfile == NULL || plffile == NULL) { // if any file couldn't open
         printf("Error opening some file(s):\n"); // return an error message
-        if (lnxfile == NULL) { printf("%s could not open\n", lnxpath); }
-        if (winfile == NULL) { printf("%s could not open\n", winpath); }
-        if (plffile == NULL) { printf("%s could not open\n", plfpath); }
+        if (lnxfile == NULL) { printf("%s could not be opened\n", lnxpath); }
+        if (winfile == NULL) { printf("%s could not be opened\n", winpath); }
+        if (plffile == NULL) { printf("%s could not be opened\n", plfpath); }
         return 2; // and a failed exit code
     }
 
