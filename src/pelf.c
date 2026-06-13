@@ -43,13 +43,14 @@ int main(int argc, char *argv[]) {
     while ((n = fread(buffer, 1, sizeof(buffer), winfile)) > 0) { // while reading bytes from winfile,
         fwrite(buffer, 1, n, plffile); // write them to plffile
     }
-    long s = ftell(winfile); // position of winffile's file pointer is now the size of the file
-    while ((n = fread(buffer, 1, sizeof(buffer), lnxfile)) > 0) { // while reading bytes from lnxfile
+    while ((n = fread(buffer, 1, sizeof(buffer), lnxfile)) > 0) { // while reading bytes from lnxfile,
         fwrite(buffer, 1, n, plffile); // append them to plffile
     }
+    long lnxsize = ftell(lnxfile); // position of lnxffile's file pointer is now the size of the file
+    // printf("lnxsize = %ld\n", lnxsize);
 
     fseek(plffile, 0, SEEK_SET); // set plffile's write pointer back to the start
-    fprintf(plffile, "MZ=\ntail -c+%ld>p<$0\nchmod +x p\n./p $@&rm p\nexit\n", s + 1); // write the stub
+    fprintf(plffile, "MZ=\ntail -c%ld>p<\"$0\"\nchmod +x p\n./p \"$@\"\nrm p\nexit\n", lnxsize); // write the stub
 
     fclose(lnxfile);
     fclose(winfile);
