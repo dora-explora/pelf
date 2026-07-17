@@ -1,9 +1,10 @@
 #include <fcntl.h>
-#include <stddef.h>
 #include <stdio.h>
 #include <string.h>
-#include <inttypes.h>
-#include <unistd.h>
+
+#ifdef _WIN32
+    #include <io.h>
+#endif
 
 int main(int argc, char *argv[]) {
     char lnxpath[4096] = {0};
@@ -23,21 +24,24 @@ int main(int argc, char *argv[]) {
         strcpy(plfpath, argv[3]);
     } else { // otherwise, print usage message
         printf("Incorrect usage: %s elf_file [pe_file] [pelf_file]\n", argv[0]);
-        return 1;
+        return 22;
     }
 
     FILE *lnxfile = fopen(lnxpath, "rb"); // open lnxfile as a binary with read permissions
     FILE *winfile = fopen(winpath, "rb"); // open winfile as a binary with read permissions
-    int plffd = open(plfpath, O_RDWR | O_CREAT, 0777);
+    int plffd = open(plfpath, O_RDWR | O_CREAT | O_TRUNC, 0777); // O_TRUNC makes sure the file is cleared to size 0 before writing
     FILE *plffile = fdopen(plffd, "wb"); // open/create plffile as an executable binary with write permissions
     if (lnxfile == NULL || winfile == NULL || plffile == NULL) { // if any file couldn't open
         printf("Error opening some file(s):\n"); // return an error message
-        if (lnxfile == NULL) { printf("%s could not be opened\n", lnxpath); }
-        if (winfile == NULL) { printf("%s could not be opened\n", winpath); }
-        if (plffile == NULL) { printf("%s could not be opened\n", plfpath); }
+        if (lnxfile == NULL) { printf("ELF file %s could not be opened\n", lnxpath); }
+        if (winfile == NULL) { printf("EXE file %s could not be opened\n", winpath); }
+        if (plffile == NULL) { printf("PELF file %s could not be opened\n", plfpath); }
         return 2; // and a failed exit code
     }
 
+    #ifdef _WIN32
+        _setmode(_fileno(plffile), _O_BINARY); // because for some ungodly reason bill gates thinks \n\r is better than \n
+    #endif
     char buffer[1024]; // make buffer for copying/concatenating files
     size_t n; // make var to hold number of bytes actually read
     while ((n = fread(buffer, 1, sizeof(buffer), winfile)) > 0) { // while reading bytes from winfile,
